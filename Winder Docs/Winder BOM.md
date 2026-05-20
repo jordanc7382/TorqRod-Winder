@@ -12,28 +12,42 @@ FRAME:
 	ball bearing carriage for 9 mm rail
 		- https://www.mcmaster.com/6709K114/
 	4040 corner gusset 
-		- 20x https://www.mcmaster.com/5537T519
-	M5x10mm button head bolt
-	M5 T-nut
+		- 40x https://www.mcmaster.com/5537T519
+	for cross members that are pressed together: straight brackets
+		- 18x https://www.mcmaster.com/5537t255/ 
+
+	M5x10mm button head bolt x32 (min)
+	M5 T-nut x32 https://www.mcmaster.com/4976N25/
 
 BELT DRIVE:
-	KP06 pillow block, 6 mm bore
-		- 8x https://www.mcmaster.com/2820T52/
-	KP05 pillow block, 5 mm bore
-		- 3x 6mm steel shaft, 65 mm (intermediate)
-		- 1x 6mm steel shaft, 160 mm (cam shaft)
-		- 1x 6mm steel shaft, 140 mm (bobbin shaft)
+	8mm Bobbin shaft mount w/ bearing 
+		- 1x https://www.mcmaster.com/3971N18/
+		- 1x https://www.mcmaster.com/6679K12/
+
+	or 5mm NEMA shaft 
+		- 1x https://www.mcmaster.com/6389K702/
+		- 1x https://www.mcmaster.com/3971N31/
+
+	6mm belt drive shaft mount w/ bearing
+		- 9x https://www.mcmaster.com/3971N15/
+		- 9x https://www.mcmaster.com/6679K11/
+
 	Shafts
-		- 3x 6 mm precision shaft
-		- 1x 5 mm precision shaft, 50 mm length https://www.mcmaster.com/1327K509/
+		- 4x ~300-350mm (total length across Y is ~280) https://www.mcmaster.com/4138N72/ (this one is 400mm)
+		- 1x 100mm https://www.mcmaster.com/4138N69/ 
+		
+		shaft collars
+		- 10x https://www.mcmaster.com/57485K66/
+			if used for pulleys +16x https://www.mcmaster.com/57485K66/
+			
 	Timing belt pulleys
 		- 2x 72T https://www.mcmaster.com/1375K161/
 		- 2x 48T https://www.mcmaster.com/1375K154/
 		- 2x 20T https://www.mcmaster.com/1375K122/
 		- 2x 18T https://www.mcmaster.com/1375K117/
 	Timing belts
-		- 2x 6mm width, 0.08" pitch, 
-		- 2x 6mm width, 0.08" pitch, 
+		- 4x 6mm width, 0.08" pitch, 
+		
 
 FOLLOWER:
 	3 mm ceramic ball
@@ -56,7 +70,7 @@ DANCER ARM:
 		- 1x https://www.mcmaster.com/92095A454/
 	Tapered threaded insert
 		- 4x https://www.mcmaster.com/97163A124/
-	Threaded insert insallation tool
+	Threaded insert installation tool
 		- 1x https://www.mcmaster.com/92160A311/
 
 ELECTRONICS:
@@ -77,3 +91,5 @@ ELECTRONICS:
 	Stepper motor driver
 		- liberated
 	- 
+
+
