@@ -98,7 +98,7 @@ Belt.T4 = floor(Belt.L4/Belt.Pitch);
 
 %% SVAJ Diagrams
 
-Beta = (Rod.nLoops/gearReduction)*2*pi;% total angle of segment [rad]
+Beta = (Rod.nLoops/gearReduction)*2*pi % total angle of segment [rad]
 h = Rod.woundLength;
 
 camAngles1 = linspace(0,Beta,450); % camshaft angles [rad]
@@ -135,21 +135,26 @@ title('s');
 %% Barrel Cam Design
 
 omega = 1; % angular velocity [rad/s]
-R_p = 0.03; % prime cylinder radius [m]
+R_p = 0.030; % prime cylinder radius [m]
 R_f = 3e-3; % follower radius [m]
 
-pressureAngle1 = atan(cycloid1.v/omega/R_p); % pressure angle [rad]
-radCurvature1 = -((1+(cycloid1.v/omega/R_p).^2).^(3/2)) ./ ...
+pressureAngle1 = atan(cycloid1.v/(omega/R_p)); % pressure angle [rad]
+radCurvature1 = -((1+(cycloid1.v/(omega/R_p)).^2).^(3/2)) ./ ...
                     (cycloid1.a./(omega^2*R_p^2));
 
 % follower contact point in cylindrical coords - rise
 z_s1 = cycloid1.s + sign(omega)*R_f*cos(pressureAngle1);
-delta_s1 = camAngles1 - sign(omega)*R_f/R_p*sin(pressureAngle1);
+delta_s1 = camAngles1 - sign(omega)*(R_f/R_p)*sin(pressureAngle1);
 
-pressureAngle2 = atan(cycloid2.v/omega/R_p); % pressure angle
+%pressureAngle2 = atan(cycloid2.v/omega*R_p); % pressure angle
+pressureAngle2 = atan(cycloid2.v/(omega/R_p));
+
 % follower contact point in cylindrical coords - return
-z_s2 = fliplr(z_s1);
-delta_s2 = camAngles2 - omega*R_f/R_p*sin(pressureAngle2);
+%z_s2 = fliplr(z_s1);
+z_s2    =  cycloid2.s + sign(omega) * R_f * cos(pressureAngle2);
+
+%delta_s2 = camAngles2 - omega*R_f/R_p*sin(pressureAngle2);
+delta_s2 = camAngles2 + sign(omega) * (R_f / R_p) * sin(pressureAngle2);
 
 % z_s_interp = interp1(delta_s2, z_s2, delta_s1, 'linear','extrap');
 % min_sep = min(abs(z_s1 - z_s2))
@@ -164,6 +169,11 @@ spline2.z  = z_s2;
 
 pressureAngle = [pressureAngle1 pressureAngle2];
 
+% Check minimum separation between grooves (should exceed 2*R_f + wall thickness)
+% Interpolate z_s2 onto delta_s1 grid for comparison
+z_s2_interp = interp1(delta_s2, z_s2, delta_s1, 'linear', 'extrap');
+min_sep = min(abs(z_s1 - z_s2_interp));
+fprintf('Minimum groove separation: %.3f mm\n', min_sep * 1000);
 %% Post processing
 
 % convert to cm to appease Fusion
@@ -179,6 +189,7 @@ spline2.z = spline2.z.*100;
 writematrix([spline1.x', spline1.y', spline1.z'], 'cam_groove1.csv');
 writematrix([spline2.x', spline2.y', spline2.z'], 'cam_groove2.csv');
 
+
 %% Plots
 figure();
 plot(camAnglesFull,rad2deg(pressureAngle),'.');
@@ -189,6 +200,8 @@ title('pressure angle');
 % figure();
 % plot(camAnglesFull,delta_s,'.');
 % title('delta_s');
+
 figure();
 plot3(spline1.x,spline1.y,spline1.z,'.',spline2.x,spline2.y,spline2.z,'.'); 
 axis equal
+
