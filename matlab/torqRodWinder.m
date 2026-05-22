@@ -89,7 +89,7 @@ Belt.L2 = Belt.Length(Belt.C2,Belt.PD_18T,Belt.PD_72T); % [mm]
 Belt.L3 = Belt.Length(Belt.C3,Belt.PD_20T,Belt.PD_48T); % [mm]
 Belt.L4 = Belt.Length(Belt.C4,Belt.PD_20T,Belt.PD_48T); % [mm]
 
-% Belt teeth (for ordering
+% Belt teeth (for ordering)
 
 Belt.T1 = floor(Belt.L1/Belt.Pitch);
 Belt.T2 = floor(Belt.L2/Belt.Pitch);
@@ -98,13 +98,14 @@ Belt.T4 = floor(Belt.L4/Belt.Pitch);
 
 %% SVAJ Diagrams
 
-Beta = (Rod.nLoops/gearReduction)*2*pi;% total angle of segment [rad]
+Beta = (Rod.nLoops/gearReduction)*2*pi; % total angle of segment [rad]
+% Beta = 6*2*pi;
 h = Rod.woundLength;
 
-camAngles1 = linspace(0,Beta,450); % camshaft angles [rad]
+camAngles1 = linspace(0,Beta,250); % camshaft angles [rad]
 cycloid1 = camSVAJ(camAngles1,Beta,h);
 
-camAngles2 = linspace(Beta,2*Beta,450);
+camAngles2 = linspace(Beta,2*Beta,250);
 cycloid2 = camSVAJ(camAngles1,Beta,h);
 cycloid2.s = fliplr(cycloid2.s);
 cycloid2.v = fliplr(cycloid2.v);
@@ -135,8 +136,8 @@ title('s');
 %% Barrel Cam Design
 
 omega = 1; % angular velocity [rad/s]
-R_p = 0.03; % prime cylinder radius [m]
-R_f = 3e-3; % follower radius [m]
+R_p = 0.025; % prime cylinder radius [m]
+R_f = 1.5e-3; % follower radius [m]
 
 pressureAngle1 = atan(cycloid1.v/omega/R_p); % pressure angle [rad]
 radCurvature1 = -((1+(cycloid1.v/omega/R_p).^2).^(3/2)) ./ ...
@@ -147,6 +148,7 @@ z_s1 = cycloid1.s + sign(omega)*R_f*cos(pressureAngle1);
 delta_s1 = camAngles1 - sign(omega)*R_f/R_p*sin(pressureAngle1);
 
 pressureAngle2 = atan(cycloid2.v/omega/R_p); % pressure angle
+
 % follower contact point in cylindrical coords - return
 z_s2 = fliplr(z_s1);
 delta_s2 = camAngles2 - omega*R_f/R_p*sin(pressureAngle2);
@@ -175,13 +177,30 @@ spline2.x = spline2.x.*100;
 spline2.y = spline2.y.*100;
 spline2.z = spline2.z.*100;
 
+spline.x = [spline1.x, spline2.x(2:end)];
+spline.y = [spline1.y, spline2.y(2:end)];
+spline.z = [spline1.z, spline2.z(2:end)];
+
 % Write to .csv
 writematrix([spline1.x', spline1.y', spline1.z'], 'cam_groove1.csv');
 writematrix([spline2.x', spline2.y', spline2.z'], 'cam_groove2.csv');
+writematrix([spline.x', spline.y', spline.z'], 'cam_groove_full.csv');
+
+
+%% Verify continuity at reversals 
+% (theta = beta)
+fprintf('Reversal point check:\n');
+fprintf('  Rise end:   [%.6f, %.6f, %.6f]\n', spline1.x(end), spline1.y(end), spline1.z(end));
+fprintf('  Ret start:  [%.6f, %.6f, %.6f]\n', spline2.x(1), spline2.y(1), spline2.z(1));
+fprintf('  Position error: %.2e mm\n', norm([spline1.x(end),spline1.y(end),spline1.z(end)] - [spline2.x(1),spline2.y(1),spline2.z(1)]));
+
+fprintf('  Rise start:   [%.6f, %.6f, %.6f]\n', spline1.x(1), spline1.y(1), spline1.z(1));
+fprintf('  Ret end:  [%.6f, %.6f, %.6f]\n', spline2.x(end), spline2.y(end), spline2.z(end));
+fprintf('  Position error: %.2e mm\n', norm([spline1.x(1),spline1.y(1),spline1.z(1)] - [spline2.x(end),spline2.y(end),spline2.z(end)]));
 
 %% Plots
 figure();
-plot(camAnglesFull,rad2deg(pressureAngle),'.');
+plot(camAngles1(1:end-1),rad2deg(radCurvature1(1:end-1)),'.');
 title('pressure angle');
 % figure();
 % plot(camAnglesFull,z_s,'.');
@@ -191,4 +210,7 @@ title('pressure angle');
 % title('delta_s');
 figure();
 plot3(spline1.x,spline1.y,spline1.z,'.',spline2.x,spline2.y,spline2.z,'.'); 
+axis equal
+figure();
+plot3(spline.x,spline.y,spline.z,'.'); 
 axis equal
