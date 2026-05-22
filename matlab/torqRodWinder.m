@@ -98,7 +98,11 @@ Belt.T4 = floor(Belt.L4/Belt.Pitch);
 
 %% SVAJ Diagrams
 
+<<<<<<< Updated upstream
 Beta = (Rod.nLoops/gearReduction)*2*pi % total angle of segment [rad]
+=======
+Beta = (Rod.nLoops/gearReduction)*2*pi;% total angle of segment [rad]
+>>>>>>> Stashed changes
 h = Rod.woundLength;
 
 camAngles1 = linspace(0,Beta,450); % camshaft angles [rad]
@@ -135,7 +139,11 @@ title('s');
 %% Barrel Cam Design
 
 omega = 1; % angular velocity [rad/s]
+<<<<<<< Updated upstream
 R_p = 0.030; % prime cylinder radius [m]
+=======
+R_p = 0.03; % prime cylinder radius [m]
+>>>>>>> Stashed changes
 R_f = 3e-3; % follower radius [m]
 
 pressureAngle1 = atan(cycloid1.v/(omega/R_p)); % pressure angle [rad]
@@ -146,9 +154,13 @@ radCurvature1 = -((1+(cycloid1.v/(omega/R_p)).^2).^(3/2)) ./ ...
 z_s1 = cycloid1.s + sign(omega)*R_f*cos(pressureAngle1);
 delta_s1 = camAngles1 - sign(omega)*(R_f/R_p)*sin(pressureAngle1);
 
+<<<<<<< Updated upstream
 %pressureAngle2 = atan(cycloid2.v/omega*R_p); % pressure angle
 pressureAngle2 = atan(cycloid2.v/(omega/R_p));
 
+=======
+pressureAngle2 = atan(cycloid2.v/omega/R_p); % pressure angle
+>>>>>>> Stashed changes
 % follower contact point in cylindrical coords - return
 %z_s2 = fliplr(z_s1);
 z_s2    =  cycloid2.s + sign(omega) * R_f * cos(pressureAngle2);
@@ -189,7 +201,10 @@ spline2.z = spline2.z.*100;
 writematrix([spline1.x', spline1.y', spline1.z'], 'cam_groove1.csv');
 writematrix([spline2.x', spline2.y', spline2.z'], 'cam_groove2.csv');
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 %% Plots
 figure();
 plot(camAnglesFull,rad2deg(pressureAngle),'.');
@@ -203,5 +218,9 @@ title('pressure angle');
 
 figure();
 plot3(spline1.x,spline1.y,spline1.z,'.',spline2.x,spline2.y,spline2.z,'.'); 
+<<<<<<< Updated upstream
 axis equal
 
+=======
+axis equal
+>>>>>>> Stashed changes
