@@ -26,11 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stepper.h"
-<<<<<<< Updated upstream
-=======
 #include "dc_motor.h"
 #include "as5600.h"
->>>>>>> Stashed changes
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,14 +38,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 Stepper_Handle_t hstepper;
-<<<<<<< Updated upstream
-=======
 DCMotor_Handle_t hdcmotor;
 AS5600_Handle_t has5600;
 
 uint16_t as5600_raw = 0;
 AS5600_Status_t as5600_status;
->>>>>>> Stashed changes
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -108,31 +102,7 @@ int main(void)
   MX_TIM3_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-<<<<<<< Updated upstream
-  // Initialize the stepper driver (Motor is disabled by default here)
-  Stepper_Init(&hstepper, &htim2, TIM_CHANNEL_1);
-  /* ---------------------------------------------------------
-   * QUICK BENCH TEST SEQUENCE
-   * --------------------------------------------------------- */
-
-  // Test 1: Spin Forward slowly (~2 rad/s -> ~1018 steps/s)
-  Stepper_Start(&hstepper, 2.0f, STEPPER_DIR_FORWARD);
-  HAL_Delay(3000); // Run for 3 seconds
-
-  // Test 2: Stop and hold for 1 second
-  Stepper_Stop(&hstepper); 
-  HAL_Delay(1000);
-
-  // Test 3: Spin Reverse a bit faster (~4 rad/s -> ~2037 steps/s)
-  Stepper_Start(&hstepper, 4.0f, STEPPER_DIR_REVERSE);
-  HAL_Delay(2000); // Run for 2 seconds
-
-  // Test 4: Stop and disable motor (coast/free-wheel)
-  Stepper_Stop(&hstepper);
-  Stepper_Disable(&hstepper);
-=======
   //dcMotorTest();
->>>>>>> Stashed changes
   /* USER CODE END 2 */
 
   /* Infinite loop */
