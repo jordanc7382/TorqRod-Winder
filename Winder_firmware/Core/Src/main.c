@@ -26,6 +26,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stepper.h"
+<<<<<<< Updated upstream
+=======
+#include "dc_motor.h"
+#include "as5600.h"
+>>>>>>> Stashed changes
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,6 +41,14 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 Stepper_Handle_t hstepper;
+<<<<<<< Updated upstream
+=======
+DCMotor_Handle_t hdcmotor;
+AS5600_Handle_t has5600;
+
+uint16_t as5600_raw = 0;
+AS5600_Status_t as5600_status;
+>>>>>>> Stashed changes
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,10 +103,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
+  as5600_status = AS5600_Init(&has5600, &hi2c1);
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+<<<<<<< Updated upstream
   // Initialize the stepper driver (Motor is disabled by default here)
   Stepper_Init(&hstepper, &htim2, TIM_CHANNEL_1);
   /* ---------------------------------------------------------
@@ -115,6 +130,9 @@ int main(void)
   // Test 4: Stop and disable motor (coast/free-wheel)
   Stepper_Stop(&hstepper);
   Stepper_Disable(&hstepper);
+=======
+  //dcMotorTest();
+>>>>>>> Stashed changes
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,8 +140,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    
     /* USER CODE BEGIN 3 */
+    as5600_status = AS5600_ReadRaw(&has5600, &as5600_raw);
+    HAL_Delay(50);
   }
   /* USER CODE END 3 */
 }
